@@ -2,19 +2,54 @@
 #include "Filters.h"
 #include <filesystem>
 
+enum filters_menu {
+	GRAY_SCALE,
+	BLACK_WHITE,
+	INVERT,
+	ADDING_FRAME
+};
+
+bool Filters::loadImage(const std::string& s) {
+	src_image= Image();
+	if (src_image.loadNewImage(s)) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 Filters::Filters() {
 	std::cout << "No image to apply filter\n";
 	// Error Handling
 }
 
-Filters::Filters(std::filesystem::path& p) {
-	img_path = p;
-	image= Image(p.string());
-	// Handle filter is not choosen
-}
-
 Filters::Filters(std::filesystem::path& p, int n) {
+	// Setting Data members, from now on we will use
+	// the data members for consistency
 	img_path = p;
-	image= Image(p.string());
 	filter_num = n;
+	if (!loadImage(img_path.string())) {
+		std::cerr << "Faild to load image\n";
+		throw std::invalid_argument("");
+	}
+	Image target_image = Image();
+	switch (filter_num) {
+		case filters_menu::GRAY_SCALE:
+			std::cout << "APPLY GRAY\n";
+			target_image = Filters::gray_scale(src_image);
+			break;
+		case filters_menu::BLACK_WHITE:
+			// target_image = Filters::black_white(src_image);
+			break;
+		case filters_menu::INVERT:
+			// target_image = Filters::invert(src_image);
+			break;
+		case filters_menu::ADDING_FRAME:
+			// target_image = Filters::adding_frame(src_image);
+			break;
+		default:
+			std::cout << "Not Valid Filter";
+	}
+	std::cout << "SAVE IMAGE\n";
+	target_image.saveImage("o.jpg");
 }
