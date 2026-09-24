@@ -5,6 +5,6 @@
 int main() {
 	std::cout << "Hello Ramly!\n";
 	std::filesystem::path p("luffy.jpg");
-	Filters m(p, 0);
+	Filters m(p, 5);
 	return 0;
 }

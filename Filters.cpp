@@ -6,7 +6,9 @@ enum filters_menu {
 	GRAY_SCALE,
 	BLACK_WHITE,
 	INVERT,
-	ADDING_FRAME
+	ADDING_FRAME,
+	FLIP_IMAGE_H,
+	FLIP_IMAGE_V
 };
 
 bool Filters::loadImage(const std::string& s) {
@@ -35,7 +37,6 @@ Filters::Filters(std::filesystem::path& p, int n) {
 	Image target_image = Image();
 	switch (filter_num) {
 		case filters_menu::GRAY_SCALE:
-			std::cout << "APPLY GRAY\n";
 			target_image = Filters::gray_scale(src_image);
 			break;
 		case filters_menu::BLACK_WHITE:
@@ -46,6 +47,13 @@ Filters::Filters(std::filesystem::path& p, int n) {
 			break;
 		case filters_menu::ADDING_FRAME:
 			// target_image = Filters::adding_frame(src_image);
+			break;
+		case filters_menu::FLIP_IMAGE_H:
+			std::cout << "APPLY FLIP_H\n";
+			target_image = Filters::flip_image_h(src_image);
+			break;
+		case filters_menu::FLIP_IMAGE_V:
+			target_image = Filters::flip_image_v(src_image);
 			break;
 		default:
 			std::cout << "Not Valid Filter";
